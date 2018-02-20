@@ -1,0 +1,12 @@
+{
+  "name": "cordova-plugin-minew-beaconplus",
+  "version": "1.0.0",
+  "cordova": {
+    "id": "cordova-plugin-minew-beaconplus",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "description": "A starting point for a Cordova Plugin"
+}
