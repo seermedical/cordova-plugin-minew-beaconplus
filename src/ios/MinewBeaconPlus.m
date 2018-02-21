@@ -1,4 +1,4 @@
-#import "MyCordovaPlugin.h"
+#import "MinewBeaconPlus.h"
 
 #import <Cordova/CDVAvailability.h>
 
