@@ -7,14 +7,13 @@
     <description></description>
     <license>MIT</license>
     <keywords></keywords>
-    <!-- <repo>https://github.com/driftyco/cordova-plugin-template.git</repo> -->
-    <!-- <issue>https://github.com/driftyco/cordova-plugin-template/issues</issue> -->
+    <repo>https://github.com/seermedical/cordova-plugin-minew-beaconplus.git</repo>
+    <issue>https://github.com/seermedical/cordova-plugin-minew-beaconplus/issues</issue>
 
     <!-- android -->
     <platform name="android">
       <js-module src="www/plugin.js" name="plugin">
         <runs/>
-
         <!-- This is the window variable name you want, like window.MyCordovaPlugin -->
         <clobbers target="MinewBeaconPlus" />
       </js-module>
@@ -42,5 +41,9 @@
 
         <header-file src="src/ios/MinewBeaconPlus.h" />
         <source-file src="src/ios/MinewBeaconPlus.m" />
+
+        <framework src="src/ios/iOSDFULibrary.framework" custom="true"/>
+        <framework src="src/ios/Zip.framework" custom="true"/>
+        <framework src="src/ios/MTBeaconPlus.framework" custom="true"/>
     </platform>
 </plugin>
