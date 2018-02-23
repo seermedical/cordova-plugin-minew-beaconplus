@@ -8,6 +8,7 @@
 - (void)echo:(CDVInvokedUrlCommand *)command;
 - (void)bleStatus:(CDVInvokedUrlCommand *)command;
 - (void)startScan:(CDVInvokedUrlCommand *)command;
+- (void)stopScan:(CDVInvokedUrlCommand *)command;
 - (void)getDate:(CDVInvokedUrlCommand *)command;
 
 @end

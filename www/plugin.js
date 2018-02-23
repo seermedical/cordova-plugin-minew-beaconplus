@@ -10,8 +10,11 @@ var MinewBeaconPlus = {
   bleStatus: function(cb) {
     exec(cb, null, PLUGIN_NAME, 'bleStatus', []);
   },
-  startScan: function(phrase, cb) {
-    exec(cb, null, PLUGIN_NAME, 'startScan', [phrase]);
+  startScan: function(cb) {
+    exec(cb, null, PLUGIN_NAME, 'startScan', []);
+  },
+  stopScan: function(cb) {
+    exec(cb, null, PLUGIN_NAME, 'stopScan', []);
   },
   getDate: function(cb) {
     exec(cb, null, PLUGIN_NAME, 'getDate', []);
