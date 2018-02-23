@@ -41,6 +41,7 @@
 
         <header-file src="src/ios/MinewBeaconPlus.h" />
         <source-file src="src/ios/MinewBeaconPlus.m" />
+        <!-- <source-file src="src/ios/MinewBeaconPlus.swift" /> -->
 
         <framework src="src/ios/iOSDFULibrary.framework" custom="true" embed="true"/>
         <framework src="src/ios/Zip.framework" custom="true" embed="true"/>

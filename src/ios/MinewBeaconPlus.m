@@ -1,15 +1,31 @@
 #import "MinewBeaconPlus.h"
 
 #import <Cordova/CDVAvailability.h>
+#import <MTBeaconPlus/MTBeaconPlus.h>
 
 @implementation MinewBeaconPlus
 
 - (void)pluginInitialize {
+  [super pluginInitialize];
+}
+
+- (void)bleStatus:(CDVInvokedUrlCommand *)command {
+  MTCentralManager *manager = [MTCentralManager sharedInstance];
+  manager.stateBlock = ^(PowerState state) {
+     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:state];
+     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+  };
 }
 
 - (void)echo:(CDVInvokedUrlCommand *)command {
   NSString* phrase = [command.arguments objectAtIndex:0];
   NSLog(@"%@", phrase);
+}
+
+- (void)startScan:(CDVInvokedUrlCommand *)command {
+  NSString *msg = [command.arguments objectAtIndex:0];
+  CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:msg];
+  [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
 - (void)getDate:(CDVInvokedUrlCommand *)command {
