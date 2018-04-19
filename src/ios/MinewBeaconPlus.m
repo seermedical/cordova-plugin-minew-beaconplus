@@ -20,12 +20,16 @@
 
 - (void)startScan:(CDVInvokedUrlCommand *)command {
   MTCentralManager *manager = [MTCentralManager sharedInstance];
+  NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:10];
+
   // start scanning task
   [manager startScan:^(NSArray<MTPeripheral *> *peris){
     NSInteger N = [peris count];
     for(NSInteger i = 0; i < N; i ++){
         MTPeripheral *peri = peris[i];
         NSString *address = peri.identifier;
+        // [dict setObject:[MTPeripheral peri] forKey:address];
+        dict[address] = peri;
         // MTFrameHandler *framer = peri.framer;
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:address];
         [result setKeepCallback:[NSNumber numberWithBool:YES]];
