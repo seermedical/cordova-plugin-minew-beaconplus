@@ -23,30 +23,16 @@
   // start scanning task
   [manager startScan:^(NSArray<MTPeripheral *> *peris){
     NSInteger N = [peris count];
-    for(NSInteger i = 0; i < N; i ++) {
-      MTPeripheral *peri = peris[i];
-      // get FrameHandler of a device.
-      // **some properties maybe nil
-      MTFrameHandler *framer = peri.framer;
-      NSArray *frames = framer.advFrames;    // all data frames of device（such as:iBeacon，UID，URL...）
-
-      // TODO return the device data somehow? I don't know how to look for a specific device yet
-      NSString *name = framer.name;
-      NSInteger rssi = framer.rssi;          // rssi
-      NSInteger battery = framer.battery;    // battery,may nil
-      NSString *mac = framer.mac;            // mac address,may nil
-
-      // Connect to the device
-      [manager connectToPeriperal:peri passwordRequire:^(MTPasswordBlock passwordBlock){
-        // the length of password string must be 8.
-        // !!! read the input content from the UITextField as a password in development.
-        NSString *password = @"minew123";
-        passwordBlock(password);
-      }];
-      MTConnectionHandler *con = peri.connector;
-      // NSLog(@"%@", con);
-
+    for(NSInteger i = 0; i < N; i ++){
+        MTPeripheral *peri = peris[i];
+        NSString *address = peri.identifier;
+        // MTFrameHandler *framer = peri.framer;
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:address];
+        [result setKeepCallback:[NSNumber numberWithBool:YES]];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }
+    // CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsMultipart:peris];
+    // [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
   }];
 }
 
