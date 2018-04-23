@@ -12,6 +12,9 @@ var MinewBeaconPlus = {
   },
   stopScan: function(cb) {
     exec(cb, null, PLUGIN_NAME, 'stopScan', []);
+  },
+  setTrigger: function(id, cb) {
+    exec(cb, null, PLUGIN_NAME, 'startScan', [id]);
   }
 };
 

@@ -8,5 +8,6 @@
 - (void)bleStatus:(CDVInvokedUrlCommand *)command;
 - (void)startScan:(CDVInvokedUrlCommand *)command;
 - (void)stopScan:(CDVInvokedUrlCommand *)command;
+- (void)setTrigger:(CDVInvokedUrlCommand *)command;
 
 @end
