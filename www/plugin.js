@@ -15,6 +15,9 @@ var MinewBeaconPlus = {
   },
   setTrigger: function(id, cb) {
     exec(cb, null, PLUGIN_NAME, 'setTrigger', [id]);
+  },
+  getFrames: function(id, cb) {
+    exec(cb, null, PLUGIN_NAME, 'getFrames', [id]);
   }
 };
 
