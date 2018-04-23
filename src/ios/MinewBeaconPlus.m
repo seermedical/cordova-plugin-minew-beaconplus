@@ -49,9 +49,9 @@
   NSString* id = [command.arguments objectAtIndex:0];
 
 // PARAMETERS
-  NSInteger triggerSlot = 6;
+  NSInteger triggerSlot = 5;
   TriggerType triggerType = TriggerTypeBtnStapLater;  // single tap button
-  NSInteger triggerValue = 30;                        // constantly broadcast 30s when single click the button.
+  NSInteger triggerValue = 5;                        // constantly broadcast Xs when single click the button.
 
   MTCentralManager *manager = [MTCentralManager sharedInstance];
   // start scanning task
@@ -74,6 +74,8 @@
               MTTriggerData *trigger = [[MTTriggerData alloc]initWithSlot:triggerSlot paramSupport:true triggerType:triggerType value:triggerValue];
               // write to the device.
               [con writeTrigger:trigger completion:^(BOOL success){
+                //disconnect & TODO ?stop scan
+                [manager disconnectFromPeriperal:peri];
                 CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
                 [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
               }];
@@ -86,6 +88,24 @@
 
 -(void)getFrames:(CDVInvokedUrlCommand *)command {
   NSString* id = [command.arguments objectAtIndex:0];
+
+  MTCentralManager *manager = [MTCentralManager sharedInstance];
+  // start scanning task
+  [manager startScan:^(NSArray<MTPeripheral *> *peris){
+    NSInteger N = [peris count];
+    for(NSInteger i = 0; i < N; i ++){
+        MTPeripheral *peri = peris[i];
+        if ([peri.identifier isEqualToString:id]) {
+          MTFrameHandler *framer = peri.framer;
+          NSArray *frames = framer.advFrames;
+          NSInteger F = [frames count];
+          if (F > 4){
+            MinewFrame *frame = frames[4];
+            NSLog(@"%d",frame.slotRadioTxpower);
+          }
+        }
+    }
+  }];
 }
 
 
