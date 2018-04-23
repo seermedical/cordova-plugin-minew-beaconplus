@@ -47,6 +47,41 @@
 
 -(void)setTrigger:(CDVInvokedUrlCommand *)command {
   NSString* id = [command.arguments objectAtIndex:0];
+
+// PARAMETERS
+  NSInteger triggerSlot = 6;
+  TriggerType triggerType = TriggerTypeBtnStapLater;  // single tap button
+  NSInteger triggerValue = 30;                        // constantly broadcast 30s when single click the button.
+
+  MTCentralManager *manager = [MTCentralManager sharedInstance];
+  // start scanning task
+  [manager startScan:^(NSArray<MTPeripheral *> *peris){
+    NSInteger N = [peris count];
+    for(NSInteger i = 0; i < N; i ++){
+        MTPeripheral *peri = peris[i];
+        if ([peri.identifier isEqualToString:id]){
+          // Connect to the device
+          [manager connectToPeriperal:peri passwordRequire:^(MTPasswordBlock passwordBlock){
+              NSString *password = @"minew123";
+              passwordBlock(password);
+          }];
+          // listen the change of device connection state
+          MTConnectionHandler *con = peri.connector;
+          con.statusChangedHandler = ^(ConnectionStatus status, NSError *error) {
+            if (status == 11){
+              NSLog(@"connected to %@",id);
+              // create a trigger instance
+              MTTriggerData *trigger = [[MTTriggerData alloc]initWithSlot:triggerSlot paramSupport:true triggerType:triggerType value:triggerValue];
+              // write to the device.
+              [con writeTrigger:trigger completion:^(BOOL success){
+                CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
+                [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+              }];
+            }
+          };
+        }
+    }
+  }];
 }
 
 
