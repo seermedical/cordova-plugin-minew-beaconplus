@@ -2,6 +2,7 @@ Minew-Beacon-Plus
 ======
 
 MASTER: Just a Cordova plugin template from here https://github.com/rrostt/cordova-plugin-template
+
 DEVELOPMENT: Everything is here so far. Developing a Cordova plugin on iOS and Android to communicate with the Minew BeaconPlus Framework
 
 # Minew Resources
