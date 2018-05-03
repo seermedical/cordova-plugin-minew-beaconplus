@@ -7,6 +7,9 @@ var MinewBeaconPlus = {
   bleStatus: function(cb) {
     exec(cb, null, PLUGIN_NAME, 'bleStatus', []);
   },
+  restoreFactorySettings: function(cb) {
+    exec(cb, null, PLUGIN_NAME, 'restoreFactorySettings', []);
+  },
   startScan: function(cb) {
     exec(cb, null, PLUGIN_NAME, 'startScan', []);
   },

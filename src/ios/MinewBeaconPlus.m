@@ -50,8 +50,7 @@
 
 // PARAMETERS
   NSInteger triggerSlot = 5;
-  TriggerType triggerType = TriggerTypeBtnStapLater;  // single tap button
-  NSInteger triggerValue = 5;                        // constantly broadcast Xs when single click the button.
+  NSInteger triggerValue = 5;                           // constantly broadcast Xs when single click the button.
 
   MTCentralManager *manager = [MTCentralManager sharedInstance];
   // start scanning task
@@ -70,15 +69,37 @@
           con.statusChangedHandler = ^(ConnectionStatus status, NSError *error) {
             if (status == 11){
               NSLog(@"connected to %@",id);
+
               // create a trigger instance
-              MTTriggerData *trigger = [[MTTriggerData alloc]initWithSlot:triggerSlot paramSupport:true triggerType:triggerType value:triggerValue];
+              MTTriggerData *trigger1 = [[MTTriggerData alloc]initWithSlot:triggerSlot paramSupport:true triggerType:TriggerTypeBtnPushLater value:triggerValue];
+              trigger1.advInterval = 100;
+              trigger1.radioTxpower = 4;
               // write to the device.
-              [con writeTrigger:trigger completion:^(BOOL success){
+              [con writeTrigger:trigger1 completion:^(BOOL success1){
+
+                if (success1) {
+                  NSLog(@"first trigger set");
+                }
+
+              }];
+
+              // create 2nd trigger instance
+              MTTriggerData *trigger2 = [[MTTriggerData alloc]initWithSlot:triggerSlot paramSupport:true triggerType:TriggerTypeBtnReleaLater value:triggerValue];
+              trigger2.advInterval = 0;
+              trigger2.radioTxpower = 0;
+              // write to the device.
+              [con writeTrigger:trigger2 completion:^(BOOL success2){
+
+                if (success2) {
+                  NSLog(@"second trigger set");
+                }
+
                 //disconnect & TODO ?stop scan
                 [manager disconnectFromPeriperal:peri];
-                CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
+                CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success2];
                 [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
               }];
+
             }
           };
         }
@@ -101,7 +122,7 @@
           NSInteger F = [frames count];
           if (F > 4){
             MinewFrame *frame = frames[4];
-            NSLog(@"%d",frame.slotRadioTxpower);
+            NSLog(@"%d, %d, %d",frame.slotRadioTxpower,frame.slotAdvTxpower,frame.slotAdvInterval);
           }
         }
     }
